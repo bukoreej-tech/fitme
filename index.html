@@ -41,46 +41,61 @@ input[type=range]{padding:0}
 <script>
 const $=s=>document.querySelector(s),DN=['อา','จ','อ','พ','พฤ','ศ','ส'],DF=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
 const key=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-const EQ=[['db','🏋️ ดัมเบลล์'],['bb','➖ บาร์เบล'],['bench','🛋️ ม้านั่ง'],['mc','⚙️ เครื่องฟิตเนส'],['band','🪢 ยางยืด'],['bar','🧗 บาร์ดึงข้อ'],['rope','🪀 เชือกกระโดด']];
+const EQ=[['db','🏋️ Dumbbell'],['bb','➖ Barbell'],['bench','🛋️ Bench'],['mc','⚙️ Machine'],['band','🪢 Band'],['bar','🧗 Pull-up Bar'],['cb','🔗 Cable'],['pul','🎡 Pulley (รอก)'],['rope','🪀 Jump Rope']];
 const EX=[
-['pu','วิดพื้น','💪','U',[],'ch','ตั้งท่า มือกว้างกว่าไหล่เล็กน้อย ตัวเป็นเส้นตรง|งอศอกลดอกลงใกล้พื้น|ดันตัวกลับขึ้น|เกร็งท้อง สะโพกไม่ตก (ยากไปให้วางเข่าลง)'],
-['dr','ดัมเบลล์โรว์','🏋️','U',['db'],'bk','ก้มตัวเอนหน้า หลังตรง ถือดัมเบลล์ปล่อยแขนลง|ดึงศอกไปด้านหลังชิดลำตัว บีบสะบัก|ลดลงช้าๆ|ไม่ใช้แรงเหวี่ง'],
-['sp','ดัมเบลล์ไหล่','🙌','U',['db'],'sh','ยืนหรือนั่ง ถือดัมเบลล์ระดับไหล่|ดันขึ้นเหนือศีรษะ|ลดกลับช้าๆ|เกร็งท้อง อย่าแอ่นหลัง'],
-['bc','ดัมเบลล์เคิร์ล','💪','U',['db'],'ar','ยืนถือดัมเบลล์ ฝ่ามือหันไปข้างหน้า|งอศอกยกขึ้นหาไหล่|ลดลงช้าๆ|ศอกชิดลำตัว ไม่โยกตัว'],
-['dbp','ดัมเบลล์เพรสอก','💪','U',['db','bench'],'ch','นอนบนม้านั่ง ถือดัมเบลล์เหนืออก|ลดลงข้างอกช้าๆ ศอกทำมุมประมาณ 45°|ดันขึ้นจนแขนเกือบเหยียด|เท้าเหยียบพื้น สะบักเก็บ'],
-['br','ยางยืดดึงหลัง','🪢','U',['band'],'bk','ผูกยางกับหลักที่มั่นคง จับสองมือ|ดึงยางเข้าหาลำตัว ศอกชิด บีบสะบัก|ปล่อยกลับช้าๆ|นั่งหรือยืนหลังตรง'],
-['pk','ไพค์วิดพื้น (ไหล่)','🙌','U',[],'sh','ตั้งท่าวิดพื้น ยกสะโพกขึ้นเป็นรูปตัว V กลับหัว|งอศอกลดศีรษะลงหาพื้น|ดันกลับขึ้น|เน้นไหล่ ขยับเท้าเข้าใกล้มือเพื่อเพิ่มความยาก'],
-['tdp','ไตรเซ็ปส์ดิป','💪','U',['bench'],'ar','นั่งขอบม้านั่ง มือจับข้างสะโพก เลื่อนก้นออก|งอศอกลดตัวลง|ดันขึ้นด้วยหลังแขน|ศอกชี้ไปด้านหลัง ไม่บาน'],
-['inc','วิดพื้นเอียง (มือบนม้านั่ง)','💪','U',['bench'],'ch','วางมือบนขอบม้านั่ง ตัวเป็นเส้นตรง|ลดอกลงหาขอบม้านั่ง|ดันกลับขึ้น|ง่ายกว่าวิดพื้นปกติ เหมาะมือใหม่'],
-['sup','ซูเปอร์แมน','🦸','U',[],'bk','นอนคว่ำ เหยียดแขนไปข้างหน้า|ยกแขนและขาขึ้นพร้อมกัน ค้าง 2 วินาที|ลดลงช้าๆ|บริหารหลังล่าง ไม่ต้องใช้อุปกรณ์'],
-['lr','ดัมเบลล์ยกข้าง','🙌','U',['db'],'sh','ยืนถือดัมเบลล์ข้างลำตัว ศอกงอเล็กน้อย|ยกแขนออกด้านข้างถึงระดับไหล่|ลดลงช้าๆ|ใช้น้ำหนักเบา ไม่เหวี่ง'],
-['bcb','ยางยืดเคิร์ล','🪢','U',['band'],'ar','เหยียบยางด้วยเท้า จับปลายสองข้าง|งอศอกดึงยางขึ้นหาไหล่|ปล่อยกลับช้าๆ|ศอกอยู่กับที่'],
-['bp','เบนช์เพรส','🏋️','U',['bb','bench'],'ch','นอนบนม้านั่ง จับบาร์กว้างกว่าไหล่เล็กน้อย|ลดบาร์แตะกลางอกเบาๆ|ดันขึ้นจนแขนเหยียด|ควรมีคนช่วยดู (spotter)'],
-['pl','ดึงข้อ','🧗','U',['bar'],'bk','จับบาร์กว้างกว่าไหล่ ห้อยตัว|ดึงตัวขึ้นจนคางพ้นบาร์|ลดลงช้าๆ จนแขนเหยียด|ทำไม่ไหวให้ใช้ยางช่วย หรือเน้นลดตัวลงช้าๆ'],
-['ohp','บาร์เบลโอเวอร์เฮด','🏋️','U',['bb'],'sh','ยืนถือบาร์เบลที่ระดับไหล่|ดันขึ้นเหนือศีรษะ|ลดกลับช้าๆ|เกร็งท้อง ไม่แอ่นหลัง'],
-['dpu','วิดพื้นมือชิด (หลังแขน)','💪','U',[],'ar','วางมือชิดกันใต้อก ตัวเป็นเส้นตรง|งอศอกชิดลำตัวลดตัวลง|ดันกลับขึ้น|เน้นกล้ามหลังแขน'],
-['cp','เครื่องเพรสอก','💪','U',['mc'],'ch','ปรับเบาะให้มือจับอยู่ระดับกลางอก|ดันมือจับไปข้างหน้าจนแขนเกือบเหยียด|ปล่อยกลับช้าๆ|หลังแนบเบาะ ไหล่ไม่ยก'],
-['lpd','แลตพูลดาวน์','🦾','U',['mc'],'bk','นั่งล็อกต้นขา จับบาร์กว้างกว่าไหล่|ดึงบาร์ลงถึงอกส่วนบน|ปล่อยกลับช้าๆ|ไม่เอนหลังมาก ดึงด้วยหลังไม่ใช่แขน'],
-['bro','บาร์เบลโรว์','🏋️','U',['bb'],'bk','ถือบาร์เบล ก้มตัวหลังตรง เข่างอเล็กน้อย|ดึงบาร์เข้าหาท้อง|ลดลงช้าๆ|หลังห้ามโค้ง'],
-['dfl','ดัมเบลล์ฟลาย','🦅','U',['db','bench'],'ch','นอนบนม้านั่ง ถือดัมเบลล์เหนืออก ศอกงอเล็กน้อย|กางแขนออกด้านข้างเป็นวงโค้ง|ใช้อกดึงกลับมาที่เดิม|ใช้น้ำหนักเบา ไม่ล็อกศอก'],
-['sq','สควอทน้ำหนักตัว','🦵','L',[],'lg','ยืนกางเท้าเท่าไหล่ ปลายเท้าชี้ออกเล็กน้อย|งอสะโพกและเข่าย่อตัวเหมือนนั่งเก้าอี้|ลงจนต้นขาขนานพื้น แล้วดันส้นเท้าลุกขึ้น|เข่าไม่บานหรือชิดเข้า หลังตรง อกเชิด'],
-['gb','สะพานก้น','🍑','L',[],'gl','นอนหงาย งอเข่า วางเท้าราบพื้น|ดันสะโพกขึ้นจนลำตัวเป็นเส้นตรงจากไหล่ถึงเข่า|บีบก้นค้าง 1-2 วินาที แล้วลดลง|อย่าแอ่นหลังเกินไป เน้นแรงจากก้น'],
-['lg','ลันจ์','🦵','L',[],'lg','ยืนตรง ก้าวเท้าข้างหนึ่งไปข้างหน้า|ย่อตัวลงจนเข่าหน้าและหลังงอประมาณ 90°|ดันส้นเท้าหน้ากลับสู่ท่าเริ่ม สลับข้าง|เข่าหน้าไม่เลยปลายเท้า ลำตัวตั้งตรง'],
-['gsq','โกเบลทสควอท','🏋️','L',['db'],'lg','ถือดัมเบลล์แนวตั้งชิดอก ยืนกางเท้าเท่าไหล่|ย่อตัวลง หลังตรง ศอกอยู่ระหว่างเข่า|ดันส้นเท้ากลับขึ้น|เก็บดัมเบลล์ชิดอกตลอดท่า'],
-['ht','ฮิปทรัสต์','🍑','L',['bench'],'gl','นั่งพื้น พิงหลังส่วนบนกับขอบม้านั่ง วางน้ำหนัก (หรือไม่ก็ได้) บนสะโพก|ดันสะโพกขึ้นจนลำตัวขนานพื้น|บีบก้นค้าง แล้วลดลงช้าๆ|เก็บคางเล็กน้อย สายตามองไปข้างหน้า'],
-['rdl','รูมาเนียนเดดลิฟต์','🏋️','L',['bb'],'lg','ถือบาร์เบลหน้าขา เข่างอเล็กน้อย|ดันสะโพกไปหลัง ลดบาร์ลงตามขา หลังตรง|ลงจนตึงต้นขาหลัง แล้วดันสะโพกกลับขึ้น|หลังห้ามโค้ง เริ่มด้วยน้ำหนักเบา'],
-['lp','เลกเพรส','🦿','L',['mc'],'lg','นั่งพิงเครื่อง วางเท้ากว้างเท่าไหล่บนแป้น|ปลดล็อก ย่อเข่าลงช้าๆ|ดันแป้นกลับจนเกือบเหยียดเข่า|ไม่ล็อกเข่าสุด ก้นไม่ลอยจากเบาะ'],
-['bsq','บาร์เบลสควอท','🏋️','L',['bb'],'lg','วางบาร์บนบ่าหลัง ยืนกางเท้าเท่าไหล่|ย่อตัวลง หลังตรง อกเชิด|ลงจนต้นขาขนานพื้น แล้วดันขึ้น|ควรใช้แร็คเซฟตี้หรือมีคนช่วยดู'],
-['pb','แพลงก์','🧘','C',[],'co','ตั้งศอกใต้ไหล่ ตัวเป็นเส้นตรงจากศีรษะถึงส้นเท้า|เกร็งท้องและก้น|ค้างตามเวลา|ห้ามสะโพกตกหรือโด่ง'],
-['cr','ครันช์ท้อง','🔥','C',[],'co','นอนหงาย งอเข่า มือแตะหลังศีรษะเบาๆ|ยกไหล่ขึ้นพร้อมเกร็งท้อง|ลดลงช้าๆ|ไม่ดึงคอ'],
-['ll','ยกขานอนราบ','🔥','C',[],'co','นอนหงาย มือวางข้างลำตัว ขาเหยียด|ยกขาขึ้นตั้งฉาก|ลดลงช้าๆ ไม่แตะพื้น|หลังล่างแนบพื้น'],
-['sc','ปีนเขา','🧗','C',[],'co','ตั้งท่าวิดพื้น|ดึงเข่าสลับเข้าหาอกเร็วๆ|ทำต่อเนื่อง|ท้องเกร็ง สะโพกต่ำ'],
-['jj','จัมปิงแจ็ก','🤸','K',[],'ca','ยืนตรง กระโดดกางขาและยกแขนขึ้น|กระโดดกลับท่าเดิม|ทำต่อเนื่อง|ลงเท้านุ่มๆ'],
-['bu','เบอร์พี','⚡','K',[],'ca','ย่อลงวางมือที่พื้น|ดีดเท้าไปท่าวิดพื้น|ดึงเท้ากลับ แล้วกระโดดขึ้น|มือใหม่ให้ทำช้าๆ ก่อน'],
-['rp','กระโดดเชือก','🪀','K',['rope'],'ca','จับเชือกหมุนด้วยข้อมือ|กระโดดเตี้ยๆ ให้เชือกผ่านใต้เท้า|ลงปลายเท้า|ไม่ต้องกระโดดสูง'],
-['jg','วิ่ง / เดินเร็ว','🏃','K',[],'ca','วอร์มเดินเร็ว 3 นาที|วิ่งเหยาะหรือเดินเร็วในจังหวะที่พูดได้|ผ่อนลงช้าๆ 2 นาทีท้าย|ใส่รองเท้าที่รองรับแรงกระแทก']];
-const MU=[['all','ทั้งหมด'],['ch','อก'],['bk','หลัง'],['sh','ไหล่'],['ar','แขน'],['lg','ขา'],['gl','สะโพก/ก้น'],['co','หน้าท้อง'],['ca','คาร์ดิโอ']],MN=Object.fromEntries(MU);
-const EQN={db:'ดัมเบลล์',bb:'บาร์เบล',bench:'ม้านั่ง',mc:'เครื่องฟิตเนส',band:'ยางยืด',bar:'บาร์ดึงข้อ',rope:'เชือกกระโดด'};
+['pu','Push-up','💪','U',[],'ch','ตั้งท่า มือกว้างกว่าไหล่เล็กน้อย ตัวเป็นเส้นตรง|งอศอกลดอกลงใกล้พื้น|ดันตัวกลับขึ้น|เกร็งท้อง สะโพกไม่ตก (ยากไปให้วางเข่าลง)'],
+['dr','Dumbbell Row','🏋️','U',['db'],'bk','ก้มตัวเอนหน้า หลังตรง ถือดัมเบลล์ปล่อยแขนลง|ดึงศอกไปด้านหลังชิดลำตัว บีบสะบัก|ลดลงช้าๆ|ไม่ใช้แรงเหวี่ง'],
+['sp','Dumbbell Shoulder Press','🙌','U',['db'],'sh','ยืนหรือนั่ง ถือดัมเบลล์ระดับไหล่|ดันขึ้นเหนือศีรษะ|ลดกลับช้าๆ|เกร็งท้อง อย่าแอ่นหลัง'],
+['bc','Dumbbell Curl','💪','U',['db'],'ar','ยืนถือดัมเบลล์ ฝ่ามือหันไปข้างหน้า|งอศอกยกขึ้นหาไหล่|ลดลงช้าๆ|ศอกชิดลำตัว ไม่โยกตัว'],
+['dbp','Dumbbell Bench Press','💪','U',['db','bench'],'ch','นอนบนม้านั่ง ถือดัมเบลล์เหนืออก|ลดลงข้างอกช้าๆ ศอกทำมุมประมาณ 45°|ดันขึ้นจนแขนเกือบเหยียด|เท้าเหยียบพื้น สะบักเก็บ'],
+['br','Band Row','🪢','U',['band'],'bk','ผูกยางกับหลักที่มั่นคง จับสองมือ|ดึงยางเข้าหาลำตัว ศอกชิด บีบสะบัก|ปล่อยกลับช้าๆ|นั่งหรือยืนหลังตรง'],
+['pk','Pike Push-up','🙌','U',[],'sh','ตั้งท่าวิดพื้น ยกสะโพกขึ้นเป็นรูปตัว V กลับหัว|งอศอกลดศีรษะลงหาพื้น|ดันกลับขึ้น|เน้นไหล่ ขยับเท้าเข้าใกล้มือเพื่อเพิ่มความยาก'],
+['tdp','Bench Dip','💪','U',['bench'],'ar','นั่งขอบม้านั่ง มือจับข้างสะโพก เลื่อนก้นออก|งอศอกลดตัวลง|ดันขึ้นด้วยหลังแขน|ศอกชี้ไปด้านหลัง ไม่บาน'],
+['inc','Incline Push-up','💪','U',['bench'],'ch','วางมือบนขอบม้านั่ง ตัวเป็นเส้นตรง|ลดอกลงหาขอบม้านั่ง|ดันกลับขึ้น|ง่ายกว่าวิดพื้นปกติ เหมาะมือใหม่'],
+['sup','Superman','🦸','U',[],'bk','นอนคว่ำ เหยียดแขนไปข้างหน้า|ยกแขนและขาขึ้นพร้อมกัน ค้าง 2 วินาที|ลดลงช้าๆ|บริหารหลังล่าง ไม่ต้องใช้อุปกรณ์'],
+['lr','Lateral Raise','🙌','U',['db'],'sh','ยืนถือดัมเบลล์ข้างลำตัว ศอกงอเล็กน้อย|ยกแขนออกด้านข้างถึงระดับไหล่|ลดลงช้าๆ|ใช้น้ำหนักเบา ไม่เหวี่ง'],
+['bcb','Band Curl','🪢','U',['band'],'ar','เหยียบยางด้วยเท้า จับปลายสองข้าง|งอศอกดึงยางขึ้นหาไหล่|ปล่อยกลับช้าๆ|ศอกอยู่กับที่'],
+['bp','Barbell Bench Press','🏋️','U',['bb','bench'],'ch','นอนบนม้านั่ง จับบาร์กว้างกว่าไหล่เล็กน้อย|ลดบาร์แตะกลางอกเบาๆ|ดันขึ้นจนแขนเหยียด|ควรมีคนช่วยดู (spotter)'],
+['pl','Pull-up','🧗','U',['bar'],'bk','จับบาร์กว้างกว่าไหล่ ห้อยตัว|ดึงตัวขึ้นจนคางพ้นบาร์|ลดลงช้าๆ จนแขนเหยียด|ทำไม่ไหวให้ใช้ยางช่วย หรือเน้นลดตัวลงช้าๆ'],
+['ohp','Overhead Press','🏋️','U',['bb'],'sh','ยืนถือบาร์เบลที่ระดับไหล่|ดันขึ้นเหนือศีรษะ|ลดกลับช้าๆ|เกร็งท้อง ไม่แอ่นหลัง'],
+['dpu','Diamond Push-up','💪','U',[],'ar','วางมือชิดกันใต้อก ตัวเป็นเส้นตรง|งอศอกชิดลำตัวลดตัวลง|ดันกลับขึ้น|เน้นกล้ามหลังแขน'],
+['cp','Chest Press Machine','💪','U',['mc'],'ch','ปรับเบาะให้มือจับอยู่ระดับกลางอก|ดันมือจับไปข้างหน้าจนแขนเกือบเหยียด|ปล่อยกลับช้าๆ|หลังแนบเบาะ ไหล่ไม่ยก'],
+['lpd','Lat Pulldown','🦾','U',['mc'],'bk','นั่งล็อกต้นขา จับบาร์กว้างกว่าไหล่|ดึงบาร์ลงถึงอกส่วนบน|ปล่อยกลับช้าๆ|ไม่เอนหลังมาก ดึงด้วยหลังไม่ใช่แขน'],
+['bro','Barbell Row','🏋️','U',['bb'],'bk','ถือบาร์เบล ก้มตัวหลังตรง เข่างอเล็กน้อย|ดึงบาร์เข้าหาท้อง|ลดลงช้าๆ|หลังห้ามโค้ง'],
+['dfl','Dumbbell Fly','🦅','U',['db','bench'],'ch','นอนบนม้านั่ง ถือดัมเบลล์เหนืออก ศอกงอเล็กน้อย|กางแขนออกด้านข้างเป็นวงโค้ง|ใช้อกดึงกลับมาที่เดิม|ใช้น้ำหนักเบา ไม่ล็อกศอก'],
+['sq','Bodyweight Squat','🦵','L',[],'lg','ยืนกางเท้าเท่าไหล่ ปลายเท้าชี้ออกเล็กน้อย|งอสะโพกและเข่าย่อตัวเหมือนนั่งเก้าอี้|ลงจนต้นขาขนานพื้น แล้วดันส้นเท้าลุกขึ้น|เข่าไม่บานหรือชิดเข้า หลังตรง อกเชิด'],
+['gb','Glute Bridge','🍑','L',[],'gl','นอนหงาย งอเข่า วางเท้าราบพื้น|ดันสะโพกขึ้นจนลำตัวเป็นเส้นตรงจากไหล่ถึงเข่า|บีบก้นค้าง 1-2 วินาที แล้วลดลง|อย่าแอ่นหลังเกินไป เน้นแรงจากก้น'],
+['lg','Lunge','🦵','L',[],'lg','ยืนตรง ก้าวเท้าข้างหนึ่งไปข้างหน้า|ย่อตัวลงจนเข่าหน้าและหลังงอประมาณ 90°|ดันส้นเท้าหน้ากลับสู่ท่าเริ่ม สลับข้าง|เข่าหน้าไม่เลยปลายเท้า ลำตัวตั้งตรง'],
+['gsq','Goblet Squat','🏋️','L',['db'],'lg','ถือดัมเบลล์แนวตั้งชิดอก ยืนกางเท้าเท่าไหล่|ย่อตัวลง หลังตรง ศอกอยู่ระหว่างเข่า|ดันส้นเท้ากลับขึ้น|เก็บดัมเบลล์ชิดอกตลอดท่า'],
+['ht','Hip Thrust','🍑','L',['bench'],'gl','นั่งพื้น พิงหลังส่วนบนกับขอบม้านั่ง วางน้ำหนัก (หรือไม่ก็ได้) บนสะโพก|ดันสะโพกขึ้นจนลำตัวขนานพื้น|บีบก้นค้าง แล้วลดลงช้าๆ|เก็บคางเล็กน้อย สายตามองไปข้างหน้า'],
+['rdl','Romanian Deadlift','🏋️','L',['bb'],'lg','ถือบาร์เบลหน้าขา เข่างอเล็กน้อย|ดันสะโพกไปหลัง ลดบาร์ลงตามขา หลังตรง|ลงจนตึงต้นขาหลัง แล้วดันสะโพกกลับขึ้น|หลังห้ามโค้ง เริ่มด้วยน้ำหนักเบา'],
+['lp','Leg Press','🦿','L',['mc'],'lg','นั่งพิงเครื่อง วางเท้ากว้างเท่าไหล่บนแป้น|ปลดล็อก ย่อเข่าลงช้าๆ|ดันแป้นกลับจนเกือบเหยียดเข่า|ไม่ล็อกเข่าสุด ก้นไม่ลอยจากเบาะ'],
+['bsq','Barbell Squat','🏋️','L',['bb'],'lg','วางบาร์บนบ่าหลัง ยืนกางเท้าเท่าไหล่|ย่อตัวลง หลังตรง อกเชิด|ลงจนต้นขาขนานพื้น แล้วดันขึ้น|ควรใช้แร็คเซฟตี้หรือมีคนช่วยดู'],
+['pb','Plank','🧘','C',[],'co','ตั้งศอกใต้ไหล่ ตัวเป็นเส้นตรงจากศีรษะถึงส้นเท้า|เกร็งท้องและก้น|ค้างตามเวลา|ห้ามสะโพกตกหรือโด่ง'],
+['cr','Crunch','🔥','C',[],'co','นอนหงาย งอเข่า มือแตะหลังศีรษะเบาๆ|ยกไหล่ขึ้นพร้อมเกร็งท้อง|ลดลงช้าๆ|ไม่ดึงคอ'],
+['ll','Leg Raise','🔥','C',[],'co','นอนหงาย มือวางข้างลำตัว ขาเหยียด|ยกขาขึ้นตั้งฉาก|ลดลงช้าๆ ไม่แตะพื้น|หลังล่างแนบพื้น'],
+['sc','Mountain Climber','🧗','C',[],'co','ตั้งท่าวิดพื้น|ดึงเข่าสลับเข้าหาอกเร็วๆ|ทำต่อเนื่อง|ท้องเกร็ง สะโพกต่ำ'],
+['jj','Jumping Jack','🤸','K',[],'ca','ยืนตรง กระโดดกางขาและยกแขนขึ้น|กระโดดกลับท่าเดิม|ทำต่อเนื่อง|ลงเท้านุ่มๆ'],
+['bu','Burpee','⚡','K',[],'ca','ย่อลงวางมือที่พื้น|ดีดเท้าไปท่าวิดพื้น|ดึงเท้ากลับ แล้วกระโดดขึ้น|มือใหม่ให้ทำช้าๆ ก่อน'],
+['rp','Jump Rope','🪀','K',['rope'],'ca','จับเชือกหมุนด้วยข้อมือ|กระโดดเตี้ยๆ ให้เชือกผ่านใต้เท้า|ลงปลายเท้า|ไม่ต้องกระโดดสูง'],
+['jg','Run / Brisk Walk','🏃','K',[],'ca','วอร์มเดินเร็ว 3 นาที|วิ่งเหยาะหรือเดินเร็วในจังหวะที่พูดได้|ผ่อนลงช้าๆ 2 นาทีท้าย|ใส่รองเท้าที่รองรับแรงกระแทก'],
+['cc','Cable Crossover','🔗','U',['cb'],'ch','ตั้งสายเคเบิลระดับสูง ก้าวเท้าข้างหนึ่งไปข้างหน้า|ดึงมือทั้งสองมาประสานกันหน้าอกเป็นวงโค้ง|ปล่อยกลับช้าๆ จนตึงอก|ศอกงอเล็กน้อย ลำตัวนิ่ง'],
+['scr','Seated Cable Row','🔗','U',['cb'],'bk','นั่งหน้าเครื่อง เท้าเหยียบแป้น หลังตรง|ดึงมือจับเข้าหาท้อง บีบสะบัก|ปล่อยกลับช้าๆ|ไม่โยกตัว ไหล่ไม่ยก'],
+['pr','Pulley Row','🎡','U',['pul'],'bk','นั่งหน้ารอก เท้าเหยียบแป้น หลังตรง|ดึงมือจับเข้าหาท้อง บีบสะบัก|ปล่อยกลับช้าๆ|ไม่โยกตัว'],
+['plp','Pulley Lat Pulldown','🎡','U',['pul'],'bk','นั่งล็อกต้นขา จับบาร์กว้างกว่าไหล่|ดึงลงถึงอกส่วนบน|ปล่อยกลับช้าๆ|ดึงด้วยหลังไม่ใช่แขน'],
+['tpd','Triceps Pushdown','🔗','U',['cb'],'ar','ยืนหน้าเคเบิลสายสูง ศอกแนบลำตัว|กดมือจับลงจนแขนเหยียด|ปล่อยกลับช้าๆ|ศอกอยู่กับที่'],
+['cbc','Cable Curl','🔗','U',['cb'],'ar','ยืนหน้าเคเบิลสายต่ำ จับบาร์|งอศอกดึงขึ้นหาไหล่|ลดลงช้าๆ|ไม่เอนตัว'],
+['fp','Face Pull','🔗','U',['cb'],'sh','ตั้งเชือกเคเบิลระดับหน้า จับสองมือ|ดึงเข้าหาหน้า แยกมือออกข้างหู|ปล่อยกลับช้าๆ|ดีต่อไหล่หลัง ใช้น้ำหนักเบา'],
+['clr','Cable Lateral Raise','🔗','U',['cb'],'sh','ยืนข้างเคเบิลสายต่ำ จับด้วยมือที่ไกลเครื่อง|ยกแขนออกข้างถึงระดับไหล่|ลดลงช้าๆ|ไม่เหวี่งตัว'],
+['ck','Cable Kickback','🔗','L',['cb'],'gl','ผูกสายที่ข้อเท้า ยืนจับเครื่อง|เตะขาไปด้านหลังพร้อมบีบก้น|ค้าง 1 วินาที กลับช้าๆ|ไม่แอ่นหลัง'],
+['cw','Cable Woodchop','🔗','C',['cb'],'co','ตั้งสายเคเบิลสูง ยืนข้างเครื่อง|ดึงทแยงลงข้ามลำตัวโดยหมุนลำตัว|กลับช้าๆ|เกร็งท้อง แขนเกือบเหยียด'],
+['cu','Chin-up','🧗','U',['bar'],'bk','จับบาร์ฝ่ามือเข้าหาตัว กว้างเท่าไหล่|ดึงตัวขึ้นจนคางพ้นบาร์|ลดลงช้าๆ จนแขนเหยียด|เน้นหลังและแขนหน้า ง่ายกว่า Pull-up เล็กน้อย'],
+['wpu','Wide-grip Pull-up','🧗','U',['bar'],'bk','จับบาร์กว้างกว่าไหล่มาก|ดึงตัวขึ้นจนคางพ้นบาร์|ลดลงช้าๆ|เน้นปีกหลัง อย่าเหวี่งตัว'],
+['apu','Assisted Pull-up','🦾','U',['mc'],'bk','ขึ้นแป้นเครื่อง Assisted ตั้งน้ำหนักช่วย|ดึงตัวขึ้นจนคางพ้นบาร์|ลดลงช้าๆ|ค่อยๆ ลดน้ำหนักช่วยเมื่อแข็งแรงขึ้น'],
+['npu','Negative Pull-up','🧗','U',['bar'],'bk','ใช้เก้าอี้ช่วยก้าวขึ้นจนคางพ้นบาร์|ลดตัวลงช้าๆ 3-5 วินาที|วางเท้า แล้วทำซ้ำ|ท่าฝึกสำหรับคนที่ยังดึงข้อไม่ได้'],
+['hk','Hanging Knee Raise','🧗','C',['bar'],'co','ห้อยตัวที่บาร์|ยกเข่าขึ้นถึงระดับอก|ลดลงช้าๆ|ไม่เหวี่งตัว']];
+const MU=[['all','ทั้งหมด'],['ch','อก Chest'],['bk','หลัง Back'],['sh','ไหล่ Shoulders'],['ar','แขน Arms'],['lg','ขา Legs'],['gl','สะโพก/ก้น Glutes'],['co','หน้าท้อง Core'],['ca','คาร์ดิโอ Cardio']],MN=Object.fromEntries(MU),FM=[['mix','🔀 Mix ผสม'],...MU.slice(1)];
+const EQN={db:'Dumbbell',bb:'Barbell',bench:'Bench',mc:'Machine',band:'Band',bar:'Pull-up Bar',cb:'Cable',pul:'Pulley',rope:'Jump Rope'};
 const E=id=>EX.find(e=>e[0]==id)||EX[0];
 let S=null;try{S=JSON.parse(localStorage.getItem('fitme')||'null')}catch(e){}
 const save=()=>{try{localStorage.setItem('fitme',JSON.stringify(S))}catch(e){}};
@@ -91,25 +106,27 @@ async function pAll(){const d=await idb;let a=[];if(d)a=await new Promise(r=>{tr
 async function pPut(o){const d=await idb;if(d){const ok=await new Promise(r=>{try{const t=d.transaction('p','readwrite');t.objectStore('p').put(o);t.oncomplete=()=>r(1);t.onerror=()=>r(0);t.onabort=()=>r(0)}catch(e){r(0)}});if(ok)return 1}mem.push(o);return 0}
 async function pDel(id){mem=mem.filter(x=>x.id!=id);const d=await idb;if(!d)return;return new Promise(r=>{try{const t=d.transaction('p','readwrite');t.objectStore('p').delete(id);t.oncomplete=r;t.onerror=r}catch(e){r()}})}
 let V='today',step=0,F={},editing=false,cmp={a:0,b:0},ss={i:0,sp:800,tm:null},confirmDel=false;
-const defF=()=>({name:'',sex:'ชาย',age:25,h:170,w:65,goal:'fat',lv:0,days:[1,3,5],n:1,times:['07:00','18:00','20:00'],loc:'home',eq:[]});
-const LOC={home:[],gym:['db','bb','bench','mc','bar'],out:['band','rope','bar']};
-function build(p){const have=e=>e[4].every(x=>p.eq.includes(x)),pool=g=>EX.filter(e=>e[3]==g&&have(e));
-const sets=(p.lv==0?2:3)+(p.goal=='muscle'?1:0),reps=p.goal=='fat'?15:p.goal=='muscle'?10:12;
+const defF=()=>({name:'',sex:'ชาย',age:25,h:170,w:65,goal:'fat',lv:0,days:[1,3,5],focus:{1:['ch','ar'],3:['bk','sh'],5:['lg','gl']},n:1,times:['07:00','18:00','20:00'],loc:'home',eq:[]});
+const LOC={home:[],gym:['db','bb','bench','mc','bar','cb','pul'],out:['band','rope','bar']};
+function build(p){const have=e=>e[4].every(x=>p.eq.includes(x)),sets=(p.lv==0?2:3)+(p.goal=='muscle'?1:0),reps=p.goal=='fat'?15:p.goal=='muscle'?10:12;
 const tx=e=>e[3]=='C'?(e[0]=='pb'?`${sets}×40 วิ`:`${sets}×20 ครั้ง`):e[3]=='K'?(e[0]=='jg'?'15 นาที':'3×30 วิ'):`${sets}×${reps} ครั้ง`;
-const pr={};const ds=[...p.days].sort();ds.forEach((d,i)=>{let t,g;if(ds.length<=3){t='ทั้งตัว';g=[['L',2],['U',3],['C',1]]}else if(i%2==0){t='ร่างกายส่วนบน';g=[['U',4],['C',2]]}else{t='ร่างกายส่วนล่าง';g=[['L',3],['C',2]]}
-if(p.goal=='fat')g.push(['K',1]);const ex=[];g.forEach(([a,n])=>{const A=pool(a);for(let j=0;j<Math.min(n,A.length);j++){const e=A[(j+i*2)%A.length];ex.push([e[0],tx(e)])}});pr[d]={t,ex}});return pr}
+const pr={},ds=[...p.days].sort((a,b)=>a-b);
+ds.forEach((d,i)=>{const f=(p.focus&&p.focus[d])||['mix'],mix=!f.length||f.includes('mix'),m=mix?['lg','ch','bk','sh','co']:f,per=m.length==1?5:m.length==2?3:2,ex=[];
+m.forEach(mu=>{const A=EX.filter(e=>e[5]==mu&&have(e));const q=mix?(mu=='lg'?2:1):per;for(let j=0;j<Math.min(q,A.length);j++){const e=A[(j+i)%A.length];if(!ex.some(x=>x[0]==e[0]))ex.push([e[0],tx(e)])}});
+if(p.goal=='fat'&&!m.includes('ca')){const K=EX.filter(e=>e[5]=='ca'&&have(e)),e=K[i%K.length];if(e)ex.push([e[0],tx(e)])}
+pr[d]={t:mix?'ทั้งตัว (Mix)':m.map(x=>MN[x].split(' ')[0]).join(' + '),ex}});return pr}
 const LIGHT=[['jg','20 นาที'],['pb','2×30 วิ']];
 // ---------- ตั้งค่าครั้งแรก ----------
 const chip=(k,v,l,on)=>`<span class="chip ${on?'on':''}" onclick='pk("${k}",${JSON.stringify(v)})'>${l}</span>`;
 function pk(k,v){if(Array.isArray(F[k])){const i=F[k].indexOf(v);i<0?F[k].push(v):F[k].splice(i,1)}else F[k]=v;if(k=='loc')F.eq=[...LOC[v]];render()}
 const inp=(k,l,t='number')=>`<label>${l}</label><input type="${t}" value="${F[k]}" oninput="F['${k}']=this.type=='number'?+this.value:this.value">`;
-function onboard(){let h='';const T=['ข้อมูลร่างกาย','ตารางฝึก','สถานที่และอุปกรณ์'];
+function onboard(){F.focus=F.focus||{};F.days.forEach(d=>F.focus[d]=F.focus[d]||['mix']);let h='';const T=['ข้อมูลร่างกาย','ตารางฝึก','สถานที่และอุปกรณ์'];
 h+=`<div class="top"><div class="logo">💪</div><div><h1>${editing?'แก้ไขข้อมูล':'ยินดีต้อนรับสู่ FitMe'}</h1><small>ขั้น ${step+1}/3 · ${T[step]}</small></div></div><div class="bar"><i style="width:${(step+1)*33.4}%"></i></div><div class="card">`;
 if(step==0){h+=inp('name','ชื่อเล่น','text')+`<label>เพศ</label><div class="chips">${['ชาย','หญิง'].map(s=>chip('sex',s,s,F.sex==s)).join('')}</div><div class="g3">${inp('age','อายุ (ปี)')}${inp('h','สูง (ซม.)')}${inp('w','หนัก (กก.)')}</div>
 <label>เป้าหมาย</label><div class="chips">${[['fat','🔥 ลดไขมัน'],['muscle','💪 เพิ่มกล้าม'],['fit','❤️ สุขภาพ']].map(([v,l])=>chip('goal',v,l,F.goal==v)).join('')}</div>
 <label>ระดับประสบการณ์</label><div class="chips">${[[0,'🌱 มือใหม่'],[1,'⚡ ปานกลาง'],[2,'🏆 ชำนาญ']].map(([v,l])=>chip('lv',v,l,F.lv==v)).join('')}</div>`}
 if(step==1){h+=`<label>วันที่จะออกกำลังกาย (${F.days.length} วัน/สัปดาห์)</label><div class="chips">${DN.map((d,i)=>chip('days',i,d,F.days.includes(i))).join('')}</div>
-<label>กี่ครั้งต่อวัน</label><div class="chips">${[1,2,3].map(n=>chip('n',n,n+' ครั้ง',F.n==n)).join('')}</div>`;
+${[...F.days].sort((a,b)=>a-b).map(d=>`<label>📌 วัน${DF[d]} เล่นส่วนไหน? (เลือกได้หลายส่วน)</label><div class="chips">${FM.map(([v,t])=>`<span class="chip ${F.focus[d].includes(v)?'on':''}" onclick="pf(${d},'${v}')">${t}</span>`).join('')}</div>`).join('')}<label>กี่ครั้งต่อวัน</label><div class="chips">${[1,2,3].map(n=>chip('n',n,n+' ครั้ง',F.n==n)).join('')}</div>`;
 for(let i=0;i<F.n;i++)h+=`<label>เวลาครั้งที่ ${i+1} ${i?'(เบา: คาร์ดิโอ+ยืดเหยียด)':'(ฝึกหลัก)'}</label><input type="time" value="${F.times[i]}" oninput="F.times[${i}]=this.value">`}
 if(step==2){h+=`<label>สถานที่</label><div class="chips">${[['home','🏠 บ้าน'],['gym','🏢 ฟิตเนส'],['out','🌳 กลางแจ้ง']].map(([v,l])=>chip('loc',v,l,F.loc==v)).join('')}</div>
 <label>อุปกรณ์ที่มี (ไม่เลือก = ใช้น้ำหนักตัว)</label><div class="chips">${EQ.map(([v,l])=>chip('eq',v,l,F.eq.includes(v))).join('')}</div>`}
@@ -137,8 +154,8 @@ const rm=(d,i)=>{S.plan[d].ex.splice(i,1);save();render()};
 const add=(d,id)=>{if(id){S.plan[d].ex.push([id,'3×12 ครั้ง']);save();render()}};
 // ---------- ความคืบหน้า ----------
 function prog(){const w=S.w,l=w[w.length-1],f=w[0],bmi=(l.kg/Math.pow(S.p.h/100,2)).toFixed(1),df=(l.kg-f.kg).toFixed(1);
-let h=`<h1>📈 ความคืบหน้า</h1><div class="card"><div class="g3"><div class="stat"><b>${f.kg}</b><small>เริ่มต้น</small></div><div class="stat"><b>${l.kg}</b><small>ล่าสุด</small></div><div class="stat"><b style="color:${df<=0?'var(--ok)':'var(--mu)'}">${df>0?'+':''}${df}</b><small>เปลี่ยนแปลง</small></div></div><small style="text-align:center;margin-top:8px">BMI ${bmi}</small>`;
-if(w.length>1){const v=w.map(x=>x.kg),mn=Math.min(...v)-1,mx=Math.max(...v)+1,pts=v.map((y,i)=>`${10+i*(280/(v.length-1))},${100-(y-mn)/(mx-mn)*90}`).join(' ');h+=`<svg viewBox="0 0 300 110" style="width:100%;margin-top:8px"><polyline points="${pts}" fill="none" stroke="var(--pr)" stroke-width="3" stroke-linejoin="round"/>${pts.split(' ').map(p=>`<circle cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="4" fill="var(--pr2)"/>`).join('')}</svg>`}
+let h=`<h1>📈 ความคืบหน้า</h1>${charts()}<h2>⚖️ น้ำหนัก</h2><div class="card"><div class="g3"><div class="stat"><b>${f.kg}</b><small>เริ่มต้น</small></div><div class="stat"><b>${l.kg}</b><small>ล่าสุด</small></div><div class="stat"><b style="color:${df<=0?'var(--ok)':'var(--mu)'}">${df>0?'+':''}${df}</b><small>เปลี่ยนแปลง</small></div></div><small style="text-align:center;margin-top:8px">BMI ${bmi}</small>`;
+if(w.length>1){const v=w.map(x=>x.kg),mn=Math.min(...v)-1,mx=Math.max(...v)+1,pts=v.map((y,i)=>`${10+i*(280/(v.length-1))},${100-(y-mn)/(mx-mn)*90}`).join(' ');h+=`<svg viewBox="0 0 300 110" style="width:100%;margin-top:8px"><polygon points="${pts} 290,105 10,105" fill="rgba(91,91,240,.15)"/><polyline points="${pts}" fill="none" stroke="var(--pr)" stroke-width="3" stroke-linejoin="round"/>${pts.split(' ').map(p=>`<circle cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="4" fill="var(--pr2)"/>`).join('')}</svg>`}
 h+=`</div><div class="card"><b>บันทึกวันนี้</b><div class="g2" style="margin-top:8px"><input id="wk" type="number" step="0.1" placeholder="น้ำหนัก (กก.)" value="${l.kg}"><input id="wn" placeholder="หมายเหตุ เช่น รู้สึกแข็งแรงขึ้น"></div><button class="btn" style="margin-top:10px" onclick="addW()">💾 บันทึก</button></div><h2>ประวัติการเปลี่ยนแปลง</h2>`;
 [...w].reverse().forEach((x,i)=>{h+=`<div class="card row" style="cursor:default"><span class="ic">⚖️</span><div class="sp"><b>${x.kg} กก.</b><small>${x.d} ${x.note?'· '+x.note:''}</small></div>${w.length>1?`<button class="x" onclick="dw(${w.length-1-i})">✕</button>`:''}</div>`});return h}
 function addW(){const kg=+$('#wk').value;if(!kg)return;S.w.push({d:key(),kg,note:$('#wn').value});save();render()}
@@ -146,8 +163,8 @@ const dw=i=>{S.w.splice(i,1);save();render()};
 // ---------- รูปเปรียบเทียบ ----------
 const kgAt=d=>{let k=S.w[0].kg;S.w.forEach(x=>{if(x.d<=d)k=x.kg});return k};
 const cap=p=>`${p.d} · ${kgAt(p.d)} กก.${p.note?' · '+p.note:''}`;
-function photo(){let h=`<h1>📸 รูปเปรียบเทียบ</h1><div class="note">🔒 รูปเก็บในเครื่องนี้เท่านั้น ไม่มีการอัปโหลด</div><div class="card"><input id="pn" placeholder="หมายเหตุรูป (ไม่บังคับ)"><div class="g2" style="margin-top:10px"><div class="pick"><div class="btn">📷 ถ่ายรูป</div><input type="file" accept="image/*" capture="environment" onchange="addP(this)"></div><div class="pick"><div class="btn g">🖼️ เลือกจากเครื่อง</div><input type="file" accept="image/*" onchange="addP(this)"></div></div></div>`;
-if(!photos.length)return h+`<div class="card" style="text-align:center"><div style="font-size:44px">🖼️</div><small>ยังไม่มีรูป ถ่ายรูปแรกเป็นจุดเริ่มต้นได้เลย<br>แนะนำ: ท่าเดิม แสงเดิม มุมเดิม ทุก 1-2 สัปดาห์</small></div>`;
+function photo(){const photos=phA();let h=`<h1>📸 รูปเปรียบเทียบ</h1><div class="note">🔒 รูปเก็บในเครื่องนี้เท่านั้น ไม่มีการอัปโหลด</div><div class="card"><b>มุมที่ถ่าย</b><div class="chips" style="margin:8px 0 10px">${ANG.map(([v,t])=>`<span class="chip ${PA==v?'on':''}" onclick="sa('${v}')">${t}</span>`).join('')}</div><input id="pn" placeholder="หมายเหตุรูป (ไม่บังคับ)"><div class="g2" style="margin-top:10px"><div class="pick"><div class="btn">📷 ถ่ายรูป</div><input type="file" accept="image/*" capture="environment" onchange="addP(this)"></div><div class="pick"><div class="btn g">🖼️ เลือกจากเครื่อง</div><input type="file" accept="image/*" onchange="addP(this)"></div></div></div>`;
+if(!photos.length)return h+`<div class="card" style="text-align:center"><div style="font-size:44px">🖼️</div><small>ยังไม่มีรูปมุมนี้ ถ่ายรูปแรกเป็นจุดเริ่มต้นได้เลย<br>แนะนำ: ท่าเดิม แสงเดิม มุมเดิม ทุก 1-2 สัปดาห์</small></div>`;
 if(photos.length>1){cmp.a=Math.min(cmp.a,photos.length-1);cmp.b=Math.min(cmp.b,photos.length-1);const A=photos[cmp.a],B=photos[cmp.b],o=photos.map((p,i)=>`<option value="${i}">${p.d}</option>`).join('');
 h+=`<h2>เทียบก่อน / หลัง</h2><div class="card"><div class="g2"><select onchange="cmp.a=+this.value;render()">${o.replace(`value="${cmp.a}"`,`value="${cmp.a}" selected`)}</select><select onchange="cmp.b=+this.value;render()">${o.replace(`value="${cmp.b}"`,`value="${cmp.b}" selected`)}</select></div>
 <div class="ph" style="margin-top:10px"><img src="${B.img}"><img id="top" src="${A.img}" style="clip-path:inset(0 50% 0 0)"><span class="cap">ก่อน ${A.d} · ${kgAt(A.d)}กก.</span><span class="cap" style="left:auto;right:8px">หลัง ${B.d} · ${kgAt(B.d)}กก.</span></div>
@@ -156,9 +173,9 @@ h+=`<h2>เทียบก่อน / หลัง</h2><div class="card"><div cl
 <div class="chips" style="margin-top:10px">${[[300,'⚡ เร็ว'],[800,'กลาง'],[1600,'🐢 ช้า']].map(([v,l])=>`<span class="chip ${ss.sp==v?'on':''}" onclick="ss.sp=${v};play(!!ss.tm);render()">${l}</span>`).join('')}</div>
 <button class="btn" style="margin-top:10px" onclick="play(!ss.tm);render()">${ss.tm?'⏸ หยุด':'▶️ เล่น'}</button></div>`}
 h+=`<h2>รูปทั้งหมด (${photos.length})</h2><div class="g3">${photos.map(p=>`<div class="thumb" style="background-image:url(${p.img})"><em>${p.d}</em><button class="x" style="position:absolute;right:0;top:0;color:#fff;text-shadow:0 0 4px #000" onclick="dp(${p.id})">✕</button></div>`).join('')}</div>`;return h}
-function play(on){clearInterval(ss.tm);ss.tm=null;if(on&&photos.length>1)ss.tm=setInterval(()=>{ss.i=(ss.i+1)%photos.length;const a=$('#sl');if(!a)return play(false);a.src=photos[ss.i].img;$('#sc').textContent=cap(photos[ss.i])},ss.sp)}
+function play(on){clearInterval(ss.tm);ss.tm=null;const P=phA();if(on&&P.length>1)ss.tm=setInterval(()=>{ss.i=(ss.i+1)%P.length;const a=$('#sl');if(!a)return play(false);a.src=P[ss.i].img;$('#sc').textContent=cap(P[ss.i])},ss.sp)}
 async function addP(el){const f=el.files&&el.files[0];if(!f)return;try{const u=URL.createObjectURL(f),im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src=u});const sc=Math.min(1,720/im.width),c=document.createElement('canvas');c.width=im.width*sc;c.height=im.height*sc;c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);
-const ok=await pPut({id:Date.now(),d:key(),note:($('#pn')||{}).value||'',img:c.toDataURL('image/jpeg',.8)});photos=await pAll();cmp.b=photos.length-1;toast(ok?'บันทึกรูปแล้ว ✅':'บันทึกแล้ว (เก็บชั่วคราว เบราว์เซอร์ไม่อนุญาตให้เก็บถาวร)')}catch(e){toast('เปิดรูปไม่สำเร็จ ลองรูปอื่นหรือถ่ายใหม่')}el.value='';render()}
+const ok=await pPut({id:Date.now(),a:PA,d:key(),note:($('#pn')||{}).value||'',img:c.toDataURL('image/jpeg',.8)});photos=await pAll();cmp.b=Math.max(0,phA().length-1);toast(ok?'บันทึกรูปแล้ว ✅':'บันทึกแล้ว (เก็บชั่วคราว เบราว์เซอร์ไม่อนุญาตให้เก็บถาวร)')}catch(e){toast('เปิดรูปไม่สำเร็จ ลองรูปอื่นหรือถ่ายใหม่')}el.value='';render()}
 async function dp(id){await pDel(id);photos=await pAll();play(false);render()}
 // ---------- ตั้งค่า ----------
 function set(){const p=S.p;return`<h1>⚙️ ตั้งค่า</h1><div class="card"><b>${p.name||'ฉัน'}</b><small>${p.sex} · ${p.age} ปี · ${p.h} ซม. · เป้าหมาย: ${{fat:'ลดไขมัน',muscle:'เพิ่มกล้าม',fit:'สุขภาพ'}[p.goal]}</small><small>ฝึก ${p.days.length} วัน/สัปดาห์ · ${p.n} ครั้ง/วัน · ${{home:'บ้าน',gym:'ฟิตเนส',out:'กลางแจ้ง'}[p.loc]}</small></div>
@@ -183,6 +200,24 @@ o.innerHTML=`<div class="sheet"><div style="font-size:56px;text-align:center">${
 o.querySelector('#addto').onchange=function(){addTo(id,this.value);o.remove()};document.body.appendChild(o)}
 function addTo(id,v){if(!v)return;const e=E(id),tx=id=='jg'?'15 นาที':id=='pb'?'3×40 วิ':e[3]=='K'?'3×30 วิ':e[3]=='C'?'3×20 ครั้ง':'3×12 ครั้ง';
 if(v=='x'){const k=key();S.extra=S.extra||{};(S.extra[k]=S.extra[k]||[]).push([id,tx]);toast('เพิ่มเข้าวันนี้แล้ว')}else{S.plan[v].ex.push([id,tx]);toast('เพิ่มเข้าตารางแล้ว')}save();render()}
+function pf(d,v){let a=F.focus[d]||[];if(v=='mix')a=['mix'];else{a=a.filter(x=>x!='mix');const i=a.indexOf(v);i<0?a.push(v):a.splice(i,1);if(!a.length)a=['mix']}F.focus[d]=a;render()}
+// ---------- photos by angle ----------
+let PA='f';const ANG=[['f','🧍 หน้า'],['s','↔️ ข้าง'],['b','🔙 หลัง'],['l','🦵 ขา']],phA=()=>photos.filter(p=>(p.a||'f')==PA);
+function sa(v){PA=v;ss.i=0;play(false);cmp={a:0,b:Math.max(0,phA().length-1)};render()}
+// ---------- charts ----------
+function charts(){const now=new Date(),L=S.log,cnt=k=>(L[k]||[]).length,wk=[];
+for(let w=7;w>=0;w--){let c=0;for(let i=0;i<7;i++){const d=new Date(now);d.setDate(now.getDate()-w*7-i);if(cnt(key(d)))c++}const d0=new Date(now);d0.setDate(now.getDate()-w*7-6);wk.push([c,d0.getDate()+'/'+(d0.getMonth()+1)])}
+const bars=wk.map(([c,l],i)=>{const h=c/7*84;return`<rect x="${i*36+8}" y="${100-h}" width="24" height="${h}" rx="6" fill="url(#g1)"/><text x="${i*36+20}" y="${95-h}" text-anchor="middle" font-size="11" fill="currentColor">${c||''}</text><text x="${i*36+20}" y="116" text-anchor="middle" font-size="8" fill="var(--mu)">${l}</text>`}).join('');
+const mc={};Object.values(L).forEach(a=>a.forEach(x=>{const m=E(x.split(':')[1])[5];mc[m]=(mc[m]||0)+1}));
+const te=Object.values(mc).reduce((a,b)=>a+b,0),CL=['#5b5bf0','#ec4899','#f59e0b','#10b981','#06b6d4','#8a5cf6','#ef4444','#84cc16'],ent=Object.entries(mc).sort((a,b)=>b[1]-a[1]);let acc=0;
+const arcs=ent.map(([m,n],i)=>{const len=n/te*251.3,c=`<circle r="40" cx="60" cy="60" fill="none" stroke="${CL[i%8]}" stroke-width="18" stroke-dasharray="${len} ${251.3-len}" stroke-dashoffset="${-acc}" transform="rotate(-90 60 60)"/>`;acc+=len;return c}).join('');
+const leg=ent.map(([m,n],i)=>`<div style="display:flex;gap:6px;align-items:center;font-size:13px"><i style="width:10px;height:10px;border-radius:3px;background:${CL[i%8]}"></i>${MN[m]} ${Math.round(n/te*100)}%</div>`).join('');
+const st=new Date(now);st.setDate(now.getDate()-77-now.getDay());let cells='';for(let i=0;i<84;i++){const d=new Date(st);d.setDate(st.getDate()+i);const n=d>now?-1:cnt(key(d));cells+=`<i style="aspect-ratio:1;border-radius:4px;background:${n<0?'transparent':n?'rgba(91,91,240,'+Math.min(1,.3+n*.15)+')':'var(--bd)'}"></i>`}
+const days=Object.values(L).filter(a=>a.length).length,avg=(wk.reduce((a,x)=>a+x[0],0)/8).toFixed(1);
+return`<div class="g3"><div class="card stat"><b>${days}</b><small>วันที่ฝึก</small></div><div class="card stat"><b>${te}</b><small>ท่าที่ทำแล้ว</small></div><div class="card stat"><b>${avg}</b><small>วัน/สัปดาห์</small></div></div>
+<div class="card"><b>📊 วันที่ฝึกต่อสัปดาห์ (8 สัปดาห์ล่าสุด)</b><svg viewBox="0 0 300 122" style="width:100%;margin-top:6px"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5cf6"/><stop offset="1" stop-color="#5b5bf0"/></linearGradient></defs>${bars}</svg></div>
+<div class="card"><b>🍩 สัดส่วนส่วนที่ฝึก</b>${te?`<div style="display:flex;gap:14px;align-items:center;margin-top:8px"><svg viewBox="0 0 120 120" width="130">${arcs}<text x="60" y="58" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">${te}</text><text x="60" y="73" text-anchor="middle" font-size="9" fill="var(--mu)">ท่า</text></svg><div style="display:grid;gap:5px">${leg}</div></div>`:'<small style="margin-top:6px">ยังไม่มีข้อมูล เริ่มติ๊กท่าที่ทำเสร็จได้เลย</small>'}</div>
+<div class="card"><b>🔥 ความสม่ำเสมอ 12 สัปดาห์</b><div style="display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(7,auto);grid-auto-flow:column;gap:3px;margin-top:8px">${cells}</div></div>`}
 // ---------- render ----------
 function render(){const a=$('#app');if(V!='photo')play(false);
 if(!S||editing){if(!F.days)F=defF();a.innerHTML=onboard();return}
